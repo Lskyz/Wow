@@ -6,9 +6,6 @@ on:
 jobs:
   build:
     runs-on: macos-26
-    defaults:
-      run:
-        working-directory: Wow-main
     steps:
       - name: 코드 체크아웃
         uses: actions/checkout@v4
@@ -35,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Atwy-ipa
-          path: Wow-main/build/ipa/Atwy.ipa
+          path: build/ipa/Atwy.ipa
       - name: 다운로드 링크 summary에 출력
         run: |
           echo "### 다운로드 링크" >> "$GITHUB_STEP_SUMMARY"
