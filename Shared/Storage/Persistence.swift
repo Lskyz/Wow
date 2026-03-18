@@ -28,7 +28,7 @@ struct PersistenceController {
         //        container = NSPersistentCloudKitContainer(name: "Atwy")
         //        try? container.initializeCloudKitSchema(options: [])
         // Add support to group
-        let storeUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.Antoine-Bollengier.Atwy")!.appendingPathComponent("Atwy.sqlite")
+        let storeUrl = (FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.Antoine-Bollengier.Atwy") ?? FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!).appendingPathComponent("Atwy.sqlite")
         let storeDescription = NSPersistentStoreDescription()
         storeDescription.shouldInferMappingModelAutomatically = true
         storeDescription.shouldMigrateStoreAutomatically = true
