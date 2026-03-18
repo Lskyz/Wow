@@ -119,9 +119,8 @@ struct HomeWebView: UIViewRepresentable {
             guard message.name == "videoHandler",
                   let videoId = message.body as? String else { return }
             DispatchQueue.main.async {
-                let video = YTVideo(videoId: videoId)
-                VideoPlayerModel.shared.loadVideo(video: video.withData())
                 SheetsModel.shared.showSheet(.watchVideo)
+                VideoPlayerModel.shared.loadVideo(video: YTVideo(videoId: videoId).withData())
             }
         }
 
@@ -136,8 +135,8 @@ struct HomeWebView: UIViewRepresentable {
                navigationAction.navigationType == .linkActivated {
                 decisionHandler(.cancel)
                 DispatchQueue.main.async {
-                    VideoPlayerModel.shared.loadVideo(video: YTVideo(videoId: videoId).withData())
                     SheetsModel.shared.showSheet(.watchVideo)
+                    VideoPlayerModel.shared.loadVideo(video: YTVideo(videoId: videoId).withData())
                 }
                 return
             }
