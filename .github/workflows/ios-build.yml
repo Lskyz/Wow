@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   build:
-    runs-on: macos-26
+    runs-on: macos-15
     steps:
       - name: 코드 체크아웃
         uses: actions/checkout@v4
