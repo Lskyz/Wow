@@ -12,9 +12,33 @@ struct HomeWebView: UIViewRepresentable {
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true
 
+        // JS로 클릭 인터셉트 - YouTube SPA는 pushState로 이동하므로
+        // navigationDelegate의 decidePolicyFor가 호출되지 않음
+        let scriptSource = """
+        (function() {
+            document.addEventListener('click', function(e) {
+                var el = e.target;
+                for (var i = 0; i < 8 && el; i++, el = el.parentElement) {
+                    if (el.tagName === 'A' && el.href) {
+                        var match = el.href.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+                        if (match) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.webkit.messageHandlers.videoHandler.postMessage(match[1]);
+                            return;
+                        }
+                    }
+                }
+            }, true);
+        })();
+        """
+        let script = WKUserScript(source: scriptSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        config.userContentController.addUserScript(script)
+        // retain cycle 방지: weak wrapper 사용
+        config.userContentController.add(WeakMessageHandler(context.coordinator), name: "videoHandler")
+
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
-        // 모바일 YouTube처럼 보이도록 유저에이전트 설정
         webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
 
         injectCookies(into: webView) {
@@ -64,23 +88,43 @@ struct HomeWebView: UIViewRepresentable {
         group.notify(queue: .main) { completion() }
     }
 
-    class Coordinator: NSObject, WKNavigationDelegate {
+    // WKUserContentController의 strong retain 방지용 weak wrapper
+    class WeakMessageHandler: NSObject, WKScriptMessageHandler {
+        weak var target: WKScriptMessageHandler?
+        init(_ target: WKScriptMessageHandler) { self.target = target }
+        func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
+            target?.userContentController(controller, didReceive: message)
+        }
+    }
+
+    class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
+        // JS 클릭 인터셉터에서 호출됨
+        func userContentController(_ userContentController: WKUserContentController,
+                                   didReceive message: WKScriptMessage) {
+            guard message.name == "videoHandler",
+                  let videoId = message.body as? String else { return }
+            DispatchQueue.main.async {
+                let video = YTVideo(videoId: videoId)
+                VideoPlayerModel.shared.loadVideo(video: video.withData())
+            }
+        }
+
+        // fullpage 로드로 watch 페이지가 열리는 경우 대비
         func webView(_ webView: WKWebView,
                      decidePolicyFor navigationAction: WKNavigationAction,
                      decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-            guard let url = navigationAction.request.url,
-                  let host = url.host, host.contains("youtube.com"),
-                  let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                  let videoId = components.queryItems?.first(where: { $0.name == "v" })?.value else {
-                decisionHandler(.allow)
+            if let url = navigationAction.request.url,
+               url.host?.contains("youtube.com") == true,
+               let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+               let videoId = components.queryItems?.first(where: { $0.name == "v" })?.value,
+               navigationAction.navigationType == .linkActivated {
+                decisionHandler(.cancel)
+                DispatchQueue.main.async {
+                    VideoPlayerModel.shared.loadVideo(video: YTVideo(videoId: videoId).withData())
+                }
                 return
             }
-            // 영상 클릭 시 앱 플레이어로 열기
-            decisionHandler(.cancel)
-            let video = YTVideo(videoId: videoId)
-            DispatchQueue.main.async {
-                VideoPlayerModel.shared.loadVideo(video: video.withData())
-            }
+            decisionHandler(.allow)
         }
     }
 }
