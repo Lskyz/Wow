@@ -106,6 +106,7 @@ struct HomeWebView: UIViewRepresentable {
             DispatchQueue.main.async {
                 let video = YTVideo(videoId: videoId)
                 VideoPlayerModel.shared.loadVideo(video: video.withData())
+                SheetsModel.shared.showSheet(.watchVideo)
             }
         }
 
@@ -121,6 +122,7 @@ struct HomeWebView: UIViewRepresentable {
                 decisionHandler(.cancel)
                 DispatchQueue.main.async {
                     VideoPlayerModel.shared.loadVideo(video: YTVideo(videoId: videoId).withData())
+                    SheetsModel.shared.showSheet(.watchVideo)
                 }
                 return
             }
