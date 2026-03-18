@@ -187,7 +187,9 @@ struct SearchView: View {
                 self.isFetching = true
                 self.error = nil
             }
-            HomeScreenResponse.sendNonThrowingRequest(youtubeModel: YTM, data: [:], result: { result in
+            Task {
+                await YTM.getVisitorData()
+                HomeScreenResponse.sendNonThrowingRequest(youtubeModel: YTM, data: [:], result: { result in
                 switch result {
                 case .success(let response):
                     self.homeResponse = response
@@ -205,8 +207,9 @@ struct SearchView: View {
                     }
                 }
             })
+            }
         }
-        
+
         private func getHomeVideosContinuation(_ end: (() -> Void)?) {
             if let homeResponse = homeResponse, let continuationToken = homeResponse.continuationToken, let visitorData = homeResponse.visitorData {
                 DispatchQueue.main.async {
