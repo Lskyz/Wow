@@ -16,6 +16,23 @@ struct HomeWebView: UIViewRepresentable {
         // navigationDelegate의 decidePolicyFor가 호출되지 않음
         let scriptSource = """
         (function() {
+            // 상단 헤더 숨기기
+            var style = document.createElement('style');
+            style.textContent = `
+                ytm-mobile-topbar-renderer,
+                #header,
+                .mobile-topbar-header,
+                ytm-topbar-logo-renderer,
+                header.yt-mobile-topbar-header {
+                    display: none !important;
+                }
+                ytm-app, #app {
+                    padding-top: 0 !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // 영상 클릭 인터셉트
             document.addEventListener('click', function(e) {
                 var el = e.target;
                 for (var i = 0; i < 8 && el; i++, el = el.parentElement) {
