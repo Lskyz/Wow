@@ -41,6 +41,12 @@ struct HomeWebView: UIViewRepresentable {
         webView.navigationDelegate = context.coordinator
         webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
 
+        // 당겨서 새로고침
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(context.coordinator, action: #selector(Coordinator.handleRefresh(_:)), for: .valueChanged)
+        webView.scrollView.addSubview(refreshControl)
+        context.coordinator.webView = webView
+
         injectCookies(into: webView) {
             var request = URLRequest(url: URL(string: "https://m.youtube.com")!)
             request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
@@ -98,6 +104,15 @@ struct HomeWebView: UIViewRepresentable {
     }
 
     class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
+        weak var webView: WKWebView?
+
+        @objc func handleRefresh(_ sender: UIRefreshControl) {
+            var request = URLRequest(url: URL(string: "https://m.youtube.com")!)
+            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+            webView?.load(request)
+            sender.endRefreshing()
+        }
+
         // JS 클릭 인터셉터에서 호출됨
         func userContentController(_ userContentController: WKUserContentController,
                                    didReceive message: WKScriptMessage) {
