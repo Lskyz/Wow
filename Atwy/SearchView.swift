@@ -53,10 +53,12 @@ struct SearchView: View {
                 .frame(maxWidth: 400, maxHeight: 150, alignment: .center)
             }
             VStack {
-                if model.isFetching {
+                if model.search.isEmpty {
+                    HomeWebView()
+                } else if model.isFetching {
                     LoadingView()
                 } else if let error = model.error {
-                    VStack (alignment: .center) {
+                    VStack(alignment: .center) {
                         Spacer()
                         Image(systemName: "multiply.circle")
                             .resizable()
