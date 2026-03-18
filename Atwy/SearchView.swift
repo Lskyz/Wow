@@ -188,7 +188,10 @@ struct SearchView: View {
                 self.error = nil
             }
             Task {
-                await YTM.getVisitorData()
+                // visitorData 초기화로 매 요청마다 새 세션 생성
+                YTM.visitorData = ""
+                // HTTP 캐시 제거로 동일 요청 캐시 반환 방지
+                URLCache.shared.removeAllCachedResponses()
                 HomeScreenResponse.sendNonThrowingRequest(youtubeModel: YTM, data: [:], result: { result in
                 switch result {
                 case .success(let response):
