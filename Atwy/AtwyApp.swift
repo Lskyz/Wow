@@ -98,10 +98,10 @@ struct AtwyApp: App {
             Group {
                 if !FMM.filesRemovedProgress {
                     VStack {
-                        Text("Cleaning files...")
+                        Text("파일 정리 중...")
                             .font(.title2)
                             .bold()
-                        Text("Do not close the app ")
+                        Text("앱을 닫지 마세요")
                             .font(.caption)
                         ProgressView()
                             .padding(.top, 50)

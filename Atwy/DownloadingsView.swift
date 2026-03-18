@@ -22,7 +22,7 @@ struct DownloadingsView: View {
                     DM.cancelDownloadFor(downloader: downloader)
                 }
             } label: {
-                Text("Cancel all downloadings")
+                Text("모두 취소")
             }
             .buttonStyle(.bordered)
             List {
@@ -82,7 +82,7 @@ struct DownloadingsView: View {
 #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .navigationTitle("Downloadings")
+        .navigationTitle("다운로드 중")
         .toolbar(content: {
             #if os(macOS)
             ToolbarItem(placement: .secondaryAction) {

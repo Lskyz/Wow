@@ -17,14 +17,14 @@ struct DownloadVideoContextButtonView: View {
             Button {
                 downloadAction(nil)
             } label: {
-                Text("Default")
+                Text("기본")
             }
             DownloadOptionsView(video: video, actionOnClick: { format in
                 downloadAction(format)
             })
         } label: {
             HStack {
-                Text("Download")
+                Text("다운로드")
                 Image(systemName: "arrow.down.circle")
                     .resizable()
                     .scaledToFit()

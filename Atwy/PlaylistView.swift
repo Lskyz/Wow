@@ -68,7 +68,7 @@ struct PlaylistView: View {
                 Button(action: {
                     self.playlist.showShareSheet()
                 }, label: {
-                    Text("Share")
+                    Text("공유")
                     Image(systemName: "square.and.arrow.up")
                         .resizable()
                         .scaledToFit()

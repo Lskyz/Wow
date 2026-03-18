@@ -105,7 +105,7 @@ struct ChannelDetailsView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5)
                                         .foregroundStyle(subscribeStatus ? colorScheme.textColor : .red)
-                                    Text(subscribeStatus ? "Subscribed" : "Subscribe")
+                                    Text(subscribeStatus ? "구독됨" : "구독")
                                         .foregroundStyle(subscribeStatus ? colorScheme.backgroundColor == .white ? .white : .red : .white)
                                         .font(.callout)
                                 }
@@ -116,16 +116,16 @@ struct ChannelDetailsView: View {
                         Divider()
                         Picker("", selection: $selectedMode, content: {
                             if model.channelInfos?.requestParams[.videos] != nil {
-                                Text("Videos").tag(0)
+                                Text("동영상").tag(0)
                             }
                             if model.channelInfos?.requestParams[.shorts] != nil {
-                                Text("Shorts").tag(1)
+                                Text("쇼츠").tag(1)
                             }
                             if model.channelInfos?.requestParams[.directs] != nil {
-                                Text("Directs").tag(2)
+                                Text("라이브").tag(2)
                             }
                             if model.channelInfos?.requestParams[.playlists] != nil {
-                                Text("Playlists").tag(3)
+                                Text("재생목록").tag(3)
                             }
                         })
                         .pickerStyle(.segmented)
@@ -179,7 +179,7 @@ struct ChannelDetailsView: View {
                                 if itemsBinding.wrappedValue.isEmpty {
                                     VStack(alignment: .center) {
                                         Spacer()
-                                        Text("No items in this category.")
+                                        Text("이 카테고리에 항목이 없습니다.")
                                         Spacer()
                                     }
                                 } else {
@@ -199,7 +199,7 @@ struct ChannelDetailsView: View {
                             } else {
                                 VStack(alignment: .center) {
                                     Spacer()
-                                    Text("No items in this category.")
+                                    Text("이 카테고리에 항목이 없습니다.")
                                     Spacer()
                                 }
                             }

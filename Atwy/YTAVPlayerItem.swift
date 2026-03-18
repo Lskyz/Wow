@@ -91,8 +91,7 @@ class YTAVPlayerItem: AVPlayerItem, ObservableObject {
             
             do {
                 self.streamingInfos = try await video.fetchStreamingInfosThrowing(youtubeModel: YTM)
-                guard let streamingURL = streamingInfos.streamingURL else { throw "No streaming URL" }
-                try await Self.testVideoFormat(url: streamingURL)
+                guard streamingInfos.streamingURL != nil else { throw "No streaming URL" }
             } catch { // check with browser headers
                 defer {
                     YTM.customHeaders[.videoInfos] = nil
@@ -130,12 +129,10 @@ class YTAVPlayerItem: AVPlayerItem, ObservableObject {
                 
                 let newStreamingInfo = try await video.fetchStreamingInfosThrowing(youtubeModel: YTM)
                 
-                guard let newStreamingURL = newStreamingInfo.streamingURL else {
+                guard newStreamingInfo.streamingURL != nil else {
                     throw "No second streaming URL"
                 }
                 self.streamingInfos = newStreamingInfo
-
-                try await Self.testVideoFormat(url: newStreamingURL)
             }
             isDownloaded = false
         }

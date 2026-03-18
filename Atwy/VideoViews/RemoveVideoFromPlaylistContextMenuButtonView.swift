@@ -18,7 +18,7 @@ struct RemoveVideoFromPlaylistContextMenuButtonView: View {
             }
         } label: {
             HStack {
-                Text("Remove from playlist")
+                Text("재생목록에서 삭제")
                 Image(systemName: "trash")
             }
         }

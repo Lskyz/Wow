@@ -52,7 +52,7 @@ struct ChannelView: View {
             Button(action: {
                 self.channel.showShareSheet()
             }, label: {
-                Text("Share")
+                Text("공유")
                 Image(systemName: "square.and.arrow.up")
                     .resizable()
                     .scaledToFit()

@@ -53,7 +53,7 @@ struct AddToPlaylistView: View {
                         .searchable(text: $search)
                         .padding(.top)
                     } else {
-                        Text("No playlist available.")
+                        Text("사용 가능한 재생목록이 없습니다.")
                     }
                 }
             }
@@ -63,14 +63,14 @@ struct AddToPlaylistView: View {
                     model.getAvailablePlaylists(video: video)
                 }
             }
-            .navigationTitle("Add to playlist")
+            .navigationTitle("재생목록에 추가")
             #if os(macOS)
             .toolbar(content: {
                 ToolbarItem(placement: .secondaryAction, content: {
                     Button {
                         dismiss()
                     } label: {
-                        Text("OK")
+                        Text("확인")
                     }
                 })
             })
@@ -81,7 +81,7 @@ struct AddToPlaylistView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("OK")
+                        Text("확인")
                     }
                 })
             })
@@ -159,9 +159,9 @@ struct AddToPlaylistView: View {
                 }
                 .frame(height: 100, alignment: .center)
                 Picker("", selection: $selectedPrivacy, content: {
-                    Text("Private").tag(0)
-                    Text("Unlisted").tag(1)
-                    Text("Public").tag(2)
+                    Text("비공개").tag(0)
+                    Text("일부 공개").tag(1)
+                    Text("공개").tag(2)
                 })
                 .pickerStyle(.menu)
                 if model.isCreatingPlaylist {
@@ -189,7 +189,7 @@ struct AddToPlaylistView: View {
                             }
                         })
                     } label: {
-                        Text("Create")
+                        Text("만들기")
                     }
                     .buttonStyle(.bordered)
                 }

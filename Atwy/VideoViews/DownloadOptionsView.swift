@@ -26,7 +26,7 @@ struct DownloadOptionsView: View {
                         }
                     }
                 } else {
-                    Text("Loading other options...")
+                    Text("다른 옵션 불러오는 중...")
                     ProgressView()
                 }
             }

@@ -16,7 +16,7 @@ struct AddToPlaylistContextMenuButtonView: View {
             SheetsModel.shared.showSheet(.addToPlaylist, data: video)
         } label: {
             HStack {
-                Text("Add to playlist")
+                Text("재생목록에 추가")
                 Image(systemName: "plus.circle")
             }
         }

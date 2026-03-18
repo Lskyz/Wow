@@ -69,7 +69,7 @@ struct SearchView: View {
                             dismissSearch()
                             model.getVideos()
                         } label: {
-                            Text("Go home")
+                            Text("홈으로")
                         }
                         .buttonStyle(.bordered)
                         Spacer()
@@ -78,9 +78,9 @@ struct SearchView: View {
                     GeometryReader { geometry in
                         ScrollView {
                             VStack {
-                                Text("No videos found...")
+                                Text("동영상을 찾을 수 없습니다...")
                                     .foregroundColor(colorScheme.textColor)
-                                Text("Search videos or pull up to refresh for the algorithm to fill this menu.")
+                                Text("동영상을 검색하거나 위로 당겨 새로고침하세요.")
                                     .foregroundStyle(.gray)
                                     .font(.caption)
                             }
@@ -134,7 +134,7 @@ struct SearchView: View {
         .onSubmit(of: .search, {
             model.getVideos() // the first getVideos is done by APIKeyModel
         })
-        .navigationTitle("Home")
+        .navigationTitle("홈")
         .navigationBarTitleDisplayMode(.automatic)
         .customNavigationTitleWithRightIcon {
             ShowSettingsButtonView()

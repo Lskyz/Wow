@@ -19,7 +19,7 @@ struct DeleteFromFavoritesView: View {
             }
         } label: {
             HStack {
-                Text("Remove Favorite")
+                Text("즐겨찾기 삭제")
                 Image(systemName: "trash")
             }
             .tint(.red)

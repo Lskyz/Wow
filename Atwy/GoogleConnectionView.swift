@@ -22,15 +22,15 @@ struct GoogleConnectionView: View {
                 }
                 Spacer()
                 VStack(alignment: .leading) {
-                    Text("Instructions")
+                    Text("안내")
                         .font(.title)
                         .bold()
-                    Text("1. Connect to your Google account.")
+                    Text("1. Google 계정에 로그인하세요.")
                         .padding(.vertical)
                         .bold()
-                    Text("2. Click on the ✓ button.")
+                    Text("2. ✓ 버튼을 누르세요.")
                         .bold()
-                    Text("Note: if you are connected on YouTube's website but clicking on the ✓ button doesn't work, you can try to reset the browser by clicking the ↻ button and reconnect again.")
+                    Text("참고: YouTube에 로그인되어 있지만 ✓ 버튼이 작동하지 않는 경우, ↻ 버튼으로 브라우저를 초기화하고 다시 연결해 보세요.")
                         .font(.caption)
                         .padding(.top)
                 }
@@ -41,7 +41,7 @@ struct GoogleConnectionView: View {
                         showInstructions = false
                     }
                 } label: {
-                    Text("Connect")
+                    Text("연결")
                         .bold()
                 }
                 .buttonStyle(.borderedProminent)

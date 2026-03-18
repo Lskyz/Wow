@@ -17,13 +17,13 @@ struct NotConnectedToGoogleView: View {
                 .scaledToFit()
                 .frame(width: 150)
                 .padding()
-            Text("You are not connected to Google.")
+            Text("Google에 연결되어 있지 않습니다.")
                 .font(.title2)
             ZStack(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(LinearGradient(colors: [.blue, .purple, .blue], startPoint: .leading, endPoint: .trailing))
                     .frame(width: 150, height: 40)
-                Text("Connect")
+                Text("연결")
                     .foregroundStyle(.white)
             }
             .routeTo(.googleConnection)

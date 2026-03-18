@@ -106,7 +106,7 @@ struct PlayingQueueView: View {
                 ZStack {
                     VariableBlurView(orientation: .topToBottom)
                         .ignoresSafeArea()
-                    Text("Next up")
+                    Text("다음 재생")
                         .font(.callout)
                         .bold()
                         .foregroundStyle(.white)

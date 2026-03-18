@@ -16,12 +16,12 @@ struct LoggerSettingsView: View {
     @ObservedObject private var logger = YouTubeModelLogger.shared
     
     var body: some View {
-        SettingsMenu(title: "Logger") { geometry in
-            SettingsSection(title: "Logger") {
+        SettingsMenu(title: "로거") { geometry in
+            SettingsSection(title: "로거") {
                 Setting(
                     textDescription: nil,
                     action: try! SAToggle(PSMType: .isLoggerActivated,
-                                          title: "Activate Logger")
+                                          title: "로거 활성화")
                     .setCallback { newValue in
                         if newValue {
                             YTM.logger?.startLogging()
@@ -37,15 +37,15 @@ struct LoggerSettingsView: View {
                 })
                 Setting(textDescription: "Setting a cache limit for the logger will avoid having a lot of RAM consumed to store all the requests. The logger will only keep the n last logs in memory, the rest will be deleted. " + (cacheLimitEnabledBinding.wrappedValue ? "" : "The default value for the cache limit is \(Self.maxCacheLimitDefaultValue), if you activate it, only the \(Self.maxCacheLimitDefaultValue) more recent logs will be kept."), action: CustomSettingToggle(title: "Logger Cache Limit", binding: cacheLimitEnabledBinding))
                 Setting(textDescription: nil, action:
-                            try! SAStepper(valueType: Int.self, PSMType: .loggerCacheLimit, title: "Limit")
+                            try! SAStepper(valueType: Int.self, PSMType: .loggerCacheLimit, title: "제한")
                     .setAction { newValue in
                         self.logger.setCacheSize(max(newValue, 0))
                         return max(newValue, 0)
                     }, hidden: self.logger.maximumCacheSize == nil)
-                Setting(textDescription: "Exported logs can contain cookies and therefore make sure that you trust who's going to have access to them. Disabling this option will hide the credentials in the UI and in log exports.", action: try! SAToggle(PSMType: .showCredentials, title: "Show credentials"))
-                Setting(textDescription: nil, action: SACustomAction(title: "Logs", actionView: {
+                Setting(textDescription: "Exported logs can contain cookies and therefore make sure that you trust who's going to have access to them. Disabling this option will hide the credentials in the UI and in log exports.", action: try! SAToggle(PSMType: .showCredentials, title: "인증 정보 표시"))
+                Setting(textDescription: nil, action: SACustomAction(title: "로그", actionView: {
                     VStack {
-                        Text("Logs")
+                        Text("로그")
                             .frame(maxWidth: .infinity, alignment: .leading)
                         List {
                             ForEach(logger.logs, id: \.id) { log in
@@ -56,7 +56,7 @@ struct LoggerSettingsView: View {
                                             logger.clearLogWithId(log.id)
                                         }
                                     } label: {
-                                        Label("Delete", systemImage: "trash")
+                                        Label("삭제", systemImage: "trash")
                                     }
                                 })
                             }
@@ -64,12 +64,12 @@ struct LoggerSettingsView: View {
                         .frame(height: geometry.size.height * 0.35)
                     }
                 }))
-                Setting(textDescription: "Delete all the log entries from the above list.", action: SATextButton(title: "", buttonLabel: "Clear logs", action: { _ in
+                Setting(textDescription: "Delete all the log entries from the above list.", action: SATextButton(title: "", buttonLabel: "로그 지우기", action: { _ in
                     withAnimation {
                         self.logger.clearLogs()
                     }
                 }))
-                Setting(textDescription: "Delete all the zip-exported log entries.", action: SATextButton(title: "", buttonLabel: "Clear log files", action: { _ in
+                Setting(textDescription: "Delete all the zip-exported log entries.", action: SATextButton(title: "", buttonLabel: "로그 파일 지우기", action: { _ in
                     self.logger.clearLocalLogFiles()
                 }))
             }
@@ -119,13 +119,13 @@ struct LoggerSettingsView: View {
             VStack {
                 HStack {
                     Picker("", selection: self.$currentCategory) {
-                        Text("Base infos")
+                        Text("기본 정보")
                             .tag(YouTubeModelLogger.LogCategory.baseInfos)
-                        Text("Request infos")
+                        Text("요청 정보")
                             .tag(YouTubeModelLogger.LogCategory.requestInfos)
-                        Text("Response data")
+                        Text("응답 데이터")
                             .tag(YouTubeModelLogger.LogCategory.responseData)
-                        Text("Response result")
+                        Text("응답 결과")
                             .tag(YouTubeModelLogger.LogCategory.response)
                     }
                     .pickerStyle(.menu)

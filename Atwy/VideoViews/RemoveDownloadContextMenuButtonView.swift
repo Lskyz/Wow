@@ -24,7 +24,7 @@ struct RemoveDownloadContextMenuButtonView: View {
             }
         } label: {
             HStack {
-                Text("Remove Download")
+                Text("다운로드 삭제")
                 Image(systemName: "trash")
             }
             .tint(.red)

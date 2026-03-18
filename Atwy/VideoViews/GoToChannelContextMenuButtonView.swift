@@ -14,7 +14,7 @@ struct GoToChannelContextMenuButtonView: View {
     var body: some View {
         HStack {
             Image(systemName: "person.crop.rectangle")
-            Text("Go to channel")
+            Text("채널로 이동")
         }
         .routeTo(.channelDetails(channel: channel))
     }

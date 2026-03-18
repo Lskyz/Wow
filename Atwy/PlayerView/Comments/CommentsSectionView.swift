@@ -56,7 +56,7 @@ struct CommentsSectionView: View {
                 .scrollContentBackground(.hidden)
                 .ignoresSafeArea(.keyboard, edges: .bottom)
             } else {
-                Text("No comments")
+                Text("댓글 없음")
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity, alignment: .center)
             }

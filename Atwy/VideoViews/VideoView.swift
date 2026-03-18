@@ -39,7 +39,7 @@ struct VideoView: View {
                                             .foregroundColor(.red)
                                         HStack {
                                             Image(systemName: "antenna.radiowaves.left.and.right")
-                                            Text("En Direct")
+                                            Text("라이브")
                                         }
                                         .bold()
                                         .foregroundColor(.white)
@@ -210,7 +210,7 @@ struct VideoView: View {
                                 .foregroundStyle(.red)
                             HStack {
                                 Image(systemName: "antenna.radiowaves.left.and.right")
-                                Text("En Direct")
+                                Text("라이브")
                             }
                             .bold()
                             .foregroundStyle(.white)

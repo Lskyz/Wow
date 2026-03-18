@@ -82,7 +82,7 @@ struct DownloadAdaptativeFormatsContextMenuView: View {
                     }
                 }
             } else {
-                Text("Loading formats...")
+                Text("형식 불러오는 중...")
                     .task {
                         if self.formats == nil {
                             await YTM.getVisitorData()
@@ -91,7 +91,7 @@ struct DownloadAdaptativeFormatsContextMenuView: View {
                     }
             }
         }, label: {
-            Text("Downloads")
+            Text("다운로드")
         })
     }
 }

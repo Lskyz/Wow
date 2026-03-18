@@ -17,7 +17,7 @@ struct DownloadingItemsContextMenuView: View {
                 PopupsModel.shared.showPopup(.resumedDownload, data: downloader.downloadInfo.thumbnailData)
             } label: {
                 HStack {
-                    Text("Resume Download")
+                    Text("다운로드 재개")
                     Image(systemName: "play")
                 }
             }
@@ -27,7 +27,7 @@ struct DownloadingItemsContextMenuView: View {
                 PopupsModel.shared.showPopup(.pausedDownload, data: downloader.downloadInfo.thumbnailData)
             } label: {
                 HStack {
-                    Text("Pause Download")
+                    Text("다운로드 일시정지")
                     Image(systemName: "pause")
                 }
             }
@@ -36,7 +36,7 @@ struct DownloadingItemsContextMenuView: View {
             DownloadersModel.shared.cancelDownloadFor(downloader: downloader)
         } label: {
             HStack {
-                Text("Cancel Download")
+                Text("다운로드 취소")
                 Image(systemName: "multiply")
             }
         }

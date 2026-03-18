@@ -21,7 +21,7 @@ struct AddToQueueContextMenuButtonView: View {
             PopupsModel.shared.showPopup(.playNext, data: videoThumbnailData)
         } label: {
             HStack {
-                Text("Play next")
+                Text("다음에 재생")
                 Image(systemName: "text.line.first.and.arrowtriangle.forward")
             }
         }
@@ -33,7 +33,7 @@ struct AddToQueueContextMenuButtonView: View {
             PopupsModel.shared.showPopup(.playLater, data: videoThumbnailData)
         } label: {
             HStack {
-                Text("Play Later")
+                Text("나중에 재생")
                 Image(systemName: "text.line.last.and.arrowtriangle.forward")
             }
         }

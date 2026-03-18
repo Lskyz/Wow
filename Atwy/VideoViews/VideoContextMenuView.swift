@@ -33,7 +33,7 @@ struct VideoContextMenuView: View {
                     self.videoWithData.video.showShareSheet(thumbnailData: self.videoWithData.data.thumbnailData)
                 } label: {
                     HStack {
-                        Text("Share")
+                        Text("공유")
                         Image(systemName: "square.and.arrow.up")
                     }
                 }

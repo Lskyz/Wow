@@ -20,7 +20,7 @@ struct AddToFavoritesContextButtonView: View, Equatable {
             )
         } label: {
             HStack {
-                Text("Add to favorites")
+                Text("즐겨찾기에 추가")
                 Image(systemName: "star.fill")
             }
         }

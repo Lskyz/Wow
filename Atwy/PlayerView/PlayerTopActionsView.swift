@@ -38,7 +38,7 @@ struct PlayerTopActionsView: View {
                                         DownloadersModel.shared.cancelDownloadFor(videoId: video.videoId)
                                     } label: {
                                         HStack {
-                                            Text("Cancel Download")
+                                            Text("다운로드 취소")
                                             Image(systemName: "multiply")
                                         }
                                     }

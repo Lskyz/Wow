@@ -36,11 +36,11 @@ struct ContentView: View {
         TabView(selection: $NPM.currentTab) {
             TabBarElement(DestinationView: {
                 SearchView()
-            }, type: .search, name: "Home", image: "square.stack.fill", needConnection: true)
+            }, type: .search, name: "홈", image: "square.stack.fill", needConnection: true)
             .environment(\.managedObjectContext, PersistenceModel.shared.context)
-            TabBarElement(DestinationView: {LocalCategoryView<FavoriteVideo>(title: "Favorites")}, type: .favorites, name: "Favorites", image: "star.fill", needConnection: false)
+            TabBarElement(DestinationView: {LocalCategoryView<FavoriteVideo>(title: "즐겨찾기")}, type: .favorites, name: "즐겨찾기", image: "star.fill", needConnection: false)
                 .environment(\.managedObjectContext, PersistenceModel.shared.context)
-            TabBarElement(DestinationView: {LocalCategoryView<DownloadedVideo>(title: "Downloads", header: {DownloadingsHeaderView()})}, type: .downloads, name: "Downloads", image: "arrow.down.circle.fill", needConnection: false)
+            TabBarElement(DestinationView: {LocalCategoryView<DownloadedVideo>(title: "다운로드", header: {DownloadingsHeaderView()})}, type: .downloads, name: "다운로드", image: "arrow.down.circle.fill", needConnection: false)
                 .environment(\.managedObjectContext, PersistenceModel.shared.context)
                 .badge(DM.activeDownloaders.count)
             TabBarElement(DestinationView: {
@@ -48,19 +48,19 @@ struct ContentView: View {
                     if !(userAccount?.isDisconnected ?? true) {
                         PersonnalAccountView()
                     } else if isFetchingAccountInfos {
-                        LoadingView(customText: "account infos")
+                        LoadingView(customText: "계정 정보")
                     } else {
                         NotConnectedToGoogleView()
                     }
                 }
-                .navigationTitle("‌‌Account")
+                .navigationTitle("‌‌계정")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbarBackground(.clear, for: .navigationBar)
                 .customNavigationTitleWithRightIcon {
                     ShowSettingsButtonView()
                 }
 
-            }, type: .account, name: "Account", image: "person.circle", needConnection: true)
+            }, type: .account, name: "계정", image: "person.circle", needConnection: true)
         }
         .overlay(alignment: .bottom, content: {
             ZStack {

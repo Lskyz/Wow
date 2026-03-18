@@ -17,8 +17,8 @@ struct AppearanceSettingsView: View {
     @State private var videoViewChoice: VideoViewModes = PreferencesStorageModel.shared.videoViewMode
     
     var body: some View {
-        SettingsMenu(title: "Appearance") { _ in
-            SettingsSection(title: "Videos Display Mode") {
+        SettingsMenu(title: "외관") { _ in
+            SettingsSection(title: "동영상 표시 모드") {
                 Setting(textDescription: nil, action: SACustomAction(title: "", actionView: {
                     GeometryReader { sectionGeometry in
                         VStack {

@@ -70,7 +70,7 @@ struct NowPlayingBarView: View {
                                     .truncationMode(.tail)
                                     .foregroundColor(colorScheme.textColor)
                             } else {
-                                Text("No title")
+                                Text("제목 없음")
                                     .truncationMode(.tail)
                                     .foregroundColor(colorScheme.textColor)
                             }

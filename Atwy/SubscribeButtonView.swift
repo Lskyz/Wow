@@ -50,7 +50,7 @@ struct SubscribeButtonView: View {
                                         }
                                     })
                                 } label: {
-                                    Text("Unsubsribe")
+                                    Text("구독 취소")
                                         .foregroundColor(colorScheme.backgroundColor)
                                 }
                                 .buttonStyle(.borderedProminent)
@@ -69,7 +69,7 @@ struct SubscribeButtonView: View {
                                         }
                                     })
                                 } label: {
-                                    Text("Subscribe")
+                                    Text("구독")
                                         .foregroundColor(.white)
                                 }
                                 .buttonStyle(.borderedProminent)

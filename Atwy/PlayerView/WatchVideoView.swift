@@ -234,7 +234,7 @@ struct WatchVideoView: View {
                                             VideoPlayerModel.shared.player.seek(to: CMTime(seconds: Double(clickedChapter.time), preferredTimescale: 600))
                                         }, videoItem: playerItem)
                                         HStack {
-                                            Text("Description")
+                                            Text("설명")
                                                 .foregroundColor(.gray)
                                                 .font(.caption)
                                             Spacer()
@@ -377,7 +377,7 @@ struct WatchVideoView: View {
                 if let chapters = chapters,
                     !chapters.isEmpty {
                     HStack {
-                        Text("Chapters")
+                        Text("챕터")
                             .foregroundColor(.gray)
                             .font(.caption)
                         Spacer()

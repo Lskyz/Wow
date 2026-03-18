@@ -16,7 +16,7 @@ struct CancelDownloadContextMenuView: View {
             DownloadersModel.shared.cancelDownloadFor(downloader: downloader)
         } label: {
             HStack {
-                Text("Cancel download")
+                Text("다운로드 취소")
                 Image(systemName: "multiply")
             }
         }

@@ -41,7 +41,7 @@ struct PersonnalAccountView: View {
                                 VStack {
                                     VStack {
                                         HStack {
-                                            Text("Playlists")
+                                            Text("재생목록")
                                                 .font(.title2)
                                                 .padding()
                                                 .foregroundColor(colorScheme.textColor)

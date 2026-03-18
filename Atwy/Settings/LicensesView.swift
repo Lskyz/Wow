@@ -129,7 +129,7 @@ public struct LicensesView: View {
                                 RoundedRectangle(cornerRadius: 50)
                                     .foregroundStyle(.red)
                                     .frame(width: 80, height: 20)
-                                Text("Homemade")
+                                Text("자체 제작")
                                     .bold()
                                     .font(.system(size: 9))
                                     .foregroundStyle(.white)
@@ -140,6 +140,6 @@ public struct LicensesView: View {
                 }
             }
         }
-        .navigationTitle("Licenses")
+        .navigationTitle("라이선스")
     }
 }

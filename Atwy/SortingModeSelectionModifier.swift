@@ -27,10 +27,10 @@ struct SortingModeSelectionModifier: ViewModifier {
                             PSM[keyPath: self.sortingMode] = newValue
                         })
                         Picker("", selection: selectionBinding) {
-                            Label("Newest", systemImage: "arrow.up.to.line.compact").tag(PreferencesStorageModel.Properties.SortingModes.newest)
-                            Label("Oldest", systemImage: "arrow.down.to.line.compact").tag(PreferencesStorageModel.Properties.SortingModes.oldest)
-                            Label("Title", systemImage: "play.rectangle").tag(PreferencesStorageModel.Properties.SortingModes.title)
-                            Label("Channel", systemImage: "person").tag(PreferencesStorageModel.Properties.SortingModes.channelName)
+                            Label("최신순", systemImage: "arrow.up.to.line.compact").tag(PreferencesStorageModel.Properties.SortingModes.newest)
+                            Label("오래된순", systemImage: "arrow.down.to.line.compact").tag(PreferencesStorageModel.Properties.SortingModes.oldest)
+                            Label("제목순", systemImage: "play.rectangle").tag(PreferencesStorageModel.Properties.SortingModes.title)
+                            Label("채널순", systemImage: "person").tag(PreferencesStorageModel.Properties.SortingModes.channelName)
                         }
                     } label: {
                         ZStack {

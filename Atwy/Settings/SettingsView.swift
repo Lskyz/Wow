@@ -29,9 +29,9 @@ struct SettingsView: View {
                                 .scaledToFit()
                                 .frame(width: 30)
                                 .padding(.top)
-                            Text("You are disconnected.")
+                            Text("연결이 끊어졌습니다.")
                                 .font(.caption)
-                            Text("Disable the flight mode or connect to a WiFi to view Account settings.")
+                            Text("계정 설정을 보려면 비행기 모드를 끄거나 Wi-Fi에 연결하세요.")
                                 .foregroundStyle(.gray)
                                 .font(.caption2)
                         }
@@ -49,7 +49,7 @@ struct SettingsView: View {
                                 .foregroundColor(.gray)
                             
                             HStack {
-                                Text("Unlink account")
+                                Text("계정 연결 해제")
                                 Image(systemName: "minus.circle")
                                     .frame(width: 30, height: 30)
                             }
@@ -57,13 +57,13 @@ struct SettingsView: View {
                             .onTapGesture {
                                 showingConfirmation = true
                             }
-                            .confirmationDialog("Unlink account?", isPresented: $showingConfirmation) {
-                                Button("Yes", role: .destructive) {
+                            .confirmationDialog("계정 연결 해제?", isPresented: $showingConfirmation) {
+                                Button("예", role: .destructive) {
                                     APIM.deleteAccount()
                                 }
-                                Button("Cancel", role: .cancel) { }
+                                Button("취소", role: .cancel) { }
                             } message: {
-                                Text("Unlink confirmation")
+                                Text("연결 해제 확인")
                             }
                             .padding(.top)
                         }
@@ -72,7 +72,7 @@ struct SettingsView: View {
                     } else {
                         VStack {
                             HStack {
-                                Text("Connect your YouTube account")
+                                Text("YouTube 계정 연결")
                                 Image(systemName: "plus.circle")
                                     .frame(width: 30, height: 30)
                             }
@@ -85,57 +85,57 @@ struct SettingsView: View {
                             iconName: "doc.questionmark.fill",
                             iconColor: .white,
                             iconBackgroundColor: .green,
-                            title: "Behavior",
+                            title: "동작",
                             routeTo: .behaviorSettings)
                         SettingsEntry(
                             iconName: "textformat.size",
                             iconColor: .white,
                             iconBackgroundColor: .blue,
-                            title: "Appeareance",
+                            title: "외관",
                             routeTo: .appearanceSettings)
                         SettingsEntry(
                             iconName: "gear",
                             iconColor: .white,
                             iconBackgroundColor: .gray,
-                            title: "Storage",
+                            title: "저장소",
                             routeTo: .storageSettings)
                         SettingsEntry(
                             iconName: "list.bullet.rectangle",
                             iconColor: .black,
                             iconBackgroundColor: .yellow,
-                            title: "Console",
+                            title: "콘솔",
                             routeTo: .consoleSettings)
                         SettingsEntry(
                             iconName: "list.bullet.clipboard",
                             iconColor: .white,
                             iconBackgroundColor: .red,
-                            title: "YouTubeKit Logger",
+                            title: "YouTubeKit 로거",
                             routeTo: .loggerSettings)
                         SettingsEntry(
                             iconName: "exclamationmark.triangle.fill",
                             iconColor: .yellow,
                             iconBackgroundColor: .black,
-                            title: "Private APIs",
+                            title: "비공개 API",
                             routeTo: .privateAPIsSettings)
                         SettingsEntry(
                             iconName: "book.fill",
                             iconColor: .white,
                             iconBackgroundColor: .orange,
-                            title: "Licenses",
+                            title: "라이선스",
                             routeTo: .licensesSettings)
                     }
                     .frame(height: 360)
                 }
             }
             .routeContainer()
-            .navigationTitle("Settings")
+            .navigationTitle("설정")
             #if os(macOS)
             .toolbar(content: {
                 ToolbarItem(placement: .secondaryAction, content: {
                     Button {
                         dismiss()
                     } label: {
-                        Text("OK")
+                        Text("확인")
                             .bold()
                     }
                 })
@@ -147,7 +147,7 @@ struct SettingsView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("OK")
+                        Text("확인")
                             .bold()
                     }
                 })

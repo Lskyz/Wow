@@ -16,7 +16,7 @@ struct CommentTextField: View {
     private let accessoriesColor: Color = Color(cgColor: .init(red: 0.9, green: 0.9, blue: 0.9, alpha: 1))
     
     var body: some View {
-        TextField("Comment", text: self.$replyText, prompt: Text("Comment").foregroundColor(accessoriesColor), axis: .vertical)
+        TextField("Comment", text: self.$replyText, prompt: Text("댓글 입력").foregroundColor(accessoriesColor), axis: .vertical)
             .textFieldStyle(ReplyCommentTextFieldStyle())
             .focused($isFocused)
             .background {

@@ -23,7 +23,7 @@ public struct ConsoleView: View {
                     let displayedLogs = self.console.logs?.filter { $0.contains(filter) || filter == "" }
                     ScrollView {
                         if displayedLogs?.isEmpty == true {
-                            Text("No logs found")
+                            Text("로그 없음")
                         } else {
                             LazyVStack(alignment: .leading) {
                                 ForEach(Array((displayedLogs ?? []).enumerated()), id: \.offset) { log in
@@ -41,7 +41,7 @@ public struct ConsoleView: View {
                     .onAppear {
                         self.console.fetchLogs()
                     }
-                    .navigationTitle("Logs at \(timeline.date, style: .time)")
+                    .navigationTitle("로그 (\(timeline.date, style: .time))")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar(content: {
                         ToolbarItem(placement: .topBarTrailing, content: {
