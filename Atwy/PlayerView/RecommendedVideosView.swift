@@ -37,7 +37,7 @@ struct RecommendedVideosView: View {
                     return PersistenceModel.shared.currentData.downloadedVideoIds.contains(where: {$0.videoId == (trendingVideo as? YTVideo)?.videoId})
                 }) {
                 let elementsBinding = Binding<[YTElementWithData]>(get: {
-                    return trendingVideos.map({YTElementWithData(element: $0, data: .init(allowChannelLinking: false, videoViewMode: .halfThumbnail))})
+                    return trendingVideos.map({YTElementWithData(element: $0, data: .init(allowChannelLinking: false, videoViewMode: .fullThumbnail))})
                 }, set: {_ in})
                 ElementsInfiniteScrollView(items: elementsBinding, shouldReloadScrollView: .constant(false), fetchMoreResultsAction: {
                     currentItem.fetchMoreRecommendedVideos()
