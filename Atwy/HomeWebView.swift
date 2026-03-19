@@ -44,7 +44,7 @@ struct HomeWebView: UIViewRepresentable {
                 for (var i = 0; i < 8 && el; i++, el = el.parentElement) {
                     if (el.tagName === 'A' && el.href) {
                         // 숏츠 URL: /shorts/VIDEO_ID
-                        var shortsMatch = el.href.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
+                        var shortsMatch = el.href.match(new RegExp('/shorts/([a-zA-Z0-9_-]{11})'));
                         if (shortsMatch) {
                             e.preventDefault();
                             e.stopPropagation();
