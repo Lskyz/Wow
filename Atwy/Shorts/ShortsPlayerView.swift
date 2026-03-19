@@ -23,26 +23,21 @@ struct ShortsPlayerView: View {
             } else if !model.videoIds.isEmpty {
                 ShortsPageViewController(model: model)
                     .ignoresSafeArea()
-            }
-
-            // 닫기 버튼
-            VStack {
-                HStack {
-                    Button {
-                        model.cleanup()
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white)
-                            .padding(10)
-                            .background(Color.black.opacity(0.5), in: Circle())
+                    // 닫기 버튼 — overlay로 달아야 하위 제스처 안 막힘
+                    .overlay(alignment: .topLeading) {
+                        Button {
+                            model.cleanup()
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .background(Color.black.opacity(0.5), in: Circle())
+                        }
+                        .padding(.leading, 16)
+                        .padding(.top, 8)
                     }
-                    .padding(.leading, 16)
-                    .padding(.top, 8)
-                    Spacer()
-                }
-                Spacer()
             }
         }
         .task { await model.loadInitial(startVideoId: initialVideoId) }
@@ -52,7 +47,7 @@ struct ShortsPlayerView: View {
 
 // MARK: - UIPageViewController 래퍼
 struct ShortsPageViewController: UIViewControllerRepresentable {
-    @ObservedObject var model: ShortsPlayerModel
+    let model: ShortsPlayerModel
 
     func makeUIViewController(context: Context) -> UIPageViewController {
         let vc = UIPageViewController(
@@ -63,18 +58,24 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
         vc.dataSource = context.coordinator
         vc.delegate = context.coordinator
         vc.view.backgroundColor = .black
+
+        // makeUIViewController 시점에 이미 videoIds가 로드돼 있으므로 바로 세팅
+        if !model.videoIds.isEmpty {
+            vc.setViewControllers([makePage(index: 0)], direction: .forward, animated: false)
+        }
         return vc
     }
 
     func updateUIViewController(_ pageVC: UIPageViewController, context: Context) {
-        // 첫 페이지만 세팅 (이후는 dataSource가 담당)
-        guard pageVC.viewControllers?.isEmpty != false,
-              !model.videoIds.isEmpty else { return }
-        let initial = makePage(index: 0)
-        pageVC.setViewControllers([initial], direction: .forward, animated: false)
+        // coordinator model 최신화
+        context.coordinator.model = model
+        // 아직 초기 VC 없으면 세팅
+        if pageVC.viewControllers?.isEmpty != false, !model.videoIds.isEmpty {
+            pageVC.setViewControllers([makePage(index: 0)], direction: .forward, animated: false)
+        }
     }
 
-    func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
+    func makeCoordinator() -> Coordinator { Coordinator(model: model) }
 
     func makePage(index: Int) -> ShortsPageVC {
         ShortsPageVC(index: index, player: model.player)
@@ -82,9 +83,9 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
 
     // MARK: Coordinator
     class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-        let parent: ShortsPageViewController
+        var model: ShortsPlayerModel  // var: updateUIViewController에서 최신화
 
-        init(parent: ShortsPageViewController) { self.parent = parent }
+        init(model: ShortsPlayerModel) { self.model = model }
 
         func pageViewController(
             _ pvc: UIPageViewController,
@@ -92,7 +93,7 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
         ) -> UIViewController? {
             guard let page = viewController as? ShortsPageVC,
                   page.index > 0 else { return nil }
-            return parent.makePage(index: page.index - 1)
+            return ShortsPageVC(index: page.index - 1, player: model.player)
         }
 
         func pageViewController(
@@ -100,8 +101,8 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
             viewControllerAfter viewController: UIViewController
         ) -> UIViewController? {
             guard let page = viewController as? ShortsPageVC,
-                  page.index < parent.model.videoIds.count - 1 else { return nil }
-            return parent.makePage(index: page.index + 1)
+                  page.index < model.videoIds.count - 1 else { return nil }
+            return ShortsPageVC(index: page.index + 1, player: model.player)
         }
 
         func pageViewController(
@@ -112,7 +113,7 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
         ) {
             guard completed,
                   let page = pvc.viewControllers?.first as? ShortsPageVC else { return }
-            parent.model.onPageChanged(to: page.index)
+            model.onPageChanged(to: page.index)
         }
     }
 }
