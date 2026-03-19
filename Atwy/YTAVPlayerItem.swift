@@ -86,9 +86,7 @@ class YTAVPlayerItem: AVPlayerItem, ObservableObject {
             isDownloaded = true
         } else {
             guard NetworkReachabilityModel.shared.connected else { throw "Attempted to load a non-downloaded video while being offline." }
-            
-            await YTM.getVisitorData()
-            
+
             do {
                 self.streamingInfos = try await video.fetchStreamingInfosThrowing(youtubeModel: YTM)
                 guard streamingInfos.streamingURL != nil else { throw "No streaming URL" }
@@ -124,8 +122,6 @@ class YTAVPlayerItem: AVPlayerItem, ObservableObject {
                         .init(name: "prettyPrint", content: "false")
                     ]
                 )
-                
-                await YTM.getVisitorData()
                 
                 let newStreamingInfo = try await video.fetchStreamingInfosThrowing(youtubeModel: YTM)
                 
