@@ -30,6 +30,7 @@ struct ContentView: View {
     @ObservedObject private var PM = PopupsModel.shared
     @ObservedObject private var NPM = NavigationPathModel.shared
     @ObservedObject private var SM = SheetsModel.shared
+    @ObservedObject private var SLM = ShortsLaunchModel.shared
     var body: some View {
         let settingsSheetBinding = SM.makeSheetBinding(.settings)
         let watchVideoBinding = SM.makeSheetBinding(.watchVideo)
@@ -119,6 +120,9 @@ struct ContentView: View {
             WatchVideoView()
                 .presentationDragIndicator(.hidden)
         })
+        .fullScreenCover(isPresented: $SLM.isPresented) {
+            ShortsPlayerView(initialVideoId: SLM.initialVideoId)
+        }
     }
     
     @ViewBuilder

@@ -43,6 +43,15 @@ struct HomeWebView: UIViewRepresentable {
                 var el = e.target;
                 for (var i = 0; i < 8 && el; i++, el = el.parentElement) {
                     if (el.tagName === 'A' && el.href) {
+                        // 숏츠 URL: /shorts/VIDEO_ID
+                        var shortsMatch = el.href.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
+                        if (shortsMatch) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.webkit.messageHandlers.shortsHandler.postMessage(shortsMatch[1]);
+                            return;
+                        }
+                        // 일반 영상 URL: ?v=VIDEO_ID
                         var match = el.href.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
                         if (match) {
                             e.preventDefault();
@@ -59,6 +68,7 @@ struct HomeWebView: UIViewRepresentable {
         config.userContentController.addUserScript(script)
         // retain cycle 방지: weak wrapper 사용
         config.userContentController.add(WeakMessageHandler(context.coordinator), name: "videoHandler")
+        config.userContentController.add(WeakMessageHandler(context.coordinator), name: "shortsHandler")
 
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
@@ -139,11 +149,14 @@ struct HomeWebView: UIViewRepresentable {
         // JS 클릭 인터셉터에서 호출됨
         func userContentController(_ userContentController: WKUserContentController,
                                    didReceive message: WKScriptMessage) {
-            guard message.name == "videoHandler",
-                  let videoId = message.body as? String else { return }
+            guard let videoId = message.body as? String else { return }
             DispatchQueue.main.async {
-                SheetsModel.shared.showSheet(.watchVideo)
-                VideoPlayerModel.shared.loadVideo(video: YTVideo(videoId: videoId).withData())
+                if message.name == "shortsHandler" {
+                    ShortsLaunchModel.shared.present(videoId: videoId)
+                } else if message.name == "videoHandler" {
+                    SheetsModel.shared.showSheet(.watchVideo)
+                    VideoPlayerModel.shared.loadVideo(video: YTVideo(videoId: videoId).withData())
+                }
             }
         }
 
