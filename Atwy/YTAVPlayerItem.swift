@@ -86,8 +86,10 @@ class YTAVPlayerItem: AVPlayerItem, ObservableObject {
             isDownloaded = true
         } else {
             guard NetworkReachabilityModel.shared.connected else { throw "Attempted to load a non-downloaded video while being offline." }
-            
-            await YTM.getVisitorData()
+
+            if YTM.visitorData.isEmpty {
+                await YTM.getVisitorData()
+            }
             
             do {
                 self.streamingInfos = try await video.fetchStreamingInfosThrowing(youtubeModel: YTM)
@@ -241,8 +243,9 @@ class YTAVPlayerItem: AVPlayerItem, ObservableObject {
                 self.update()
             }
             
-            await self.fetchMoreRecommendedVideos()
-            await self.fetchVideoComments()
+            // 추천영상 + 댓글 병렬 fetch
+            self.fetchMoreRecommendedVideos()
+            self.fetchVideoComments()
         }
     }
     

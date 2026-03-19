@@ -165,7 +165,8 @@ struct SearchView: View {
         public func getVideos(_ end: (() -> Void)? = nil) {
             if !isFetching, !isFetchingContination {
                 if search.isEmpty {
-                    self.getHomeVideos(end)
+                    // HomeWebView가 홈피드를 담당하므로 native fetch 불필요
+                    DispatchQueue.main.async { end?() }
                 } else {
                     self.getVideosForSearch(search, end)
                 }

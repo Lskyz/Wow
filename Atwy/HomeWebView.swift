@@ -9,6 +9,12 @@ import YouTubeKit
 
 struct HomeWebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
+        // WebView 로드와 동시에 visitorData 백그라운드 pre-fetch
+        if YTM.visitorData.isEmpty {
+            Task.detached {
+                await YTM.getVisitorData()
+            }
+        }
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true
 
