@@ -23,7 +23,6 @@ struct ShortsPlayerView: View {
             } else if !model.videoIds.isEmpty {
                 ShortsPageViewController(model: model)
                     .ignoresSafeArea()
-                    // 닫기 버튼 — overlay로 달아야 하위 제스처 안 막힘
                     .overlay(alignment: .topLeading) {
                         Button {
                             model.cleanup()
@@ -59,17 +58,13 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
         vc.delegate = context.coordinator
         vc.view.backgroundColor = .black
 
-        // makeUIViewController 시점에 이미 videoIds가 로드돼 있으므로 바로 세팅
-        if !model.videoIds.isEmpty {
-            vc.setViewControllers([makePage(index: 0)], direction: .forward, animated: false)
-        }
+        let firstPage = makePage(index: 0)
+        vc.setViewControllers([firstPage], direction: .forward, animated: false)
         return vc
     }
 
     func updateUIViewController(_ pageVC: UIPageViewController, context: Context) {
-        // coordinator model 최신화
         context.coordinator.model = model
-        // 아직 초기 VC 없으면 세팅
         if pageVC.viewControllers?.isEmpty != false, !model.videoIds.isEmpty {
             pageVC.setViewControllers([makePage(index: 0)], direction: .forward, animated: false)
         }
@@ -78,12 +73,12 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
     func makeCoordinator() -> Coordinator { Coordinator(model: model) }
 
     func makePage(index: Int) -> ShortsPageVC {
-        ShortsPageVC(index: index, player: model.player)
+        ShortsPageVC(index: index, model: model)
     }
 
     // MARK: Coordinator
     class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-        var model: ShortsPlayerModel  // var: updateUIViewController에서 최신화
+        var model: ShortsPlayerModel
 
         init(model: ShortsPlayerModel) { self.model = model }
 
@@ -93,7 +88,7 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
         ) -> UIViewController? {
             guard let page = viewController as? ShortsPageVC,
                   page.index > 0 else { return nil }
-            return ShortsPageVC(index: page.index - 1, player: model.player)
+            return ShortsPageVC(index: page.index - 1, model: model)
         }
 
         func pageViewController(
@@ -102,7 +97,7 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
         ) -> UIViewController? {
             guard let page = viewController as? ShortsPageVC,
                   page.index < model.videoIds.count - 1 else { return nil }
-            return ShortsPageVC(index: page.index + 1, player: model.player)
+            return ShortsPageVC(index: page.index + 1, model: model)
         }
 
         func pageViewController(
@@ -121,12 +116,13 @@ struct ShortsPageViewController: UIViewControllerRepresentable {
 // MARK: - 개별 Short 페이지
 class ShortsPageVC: UIViewController {
     let index: Int
-    let player: AVPlayer
+    let model: ShortsPlayerModel
     private var playerLayer: AVPlayerLayer?
+    private var observerToken: NSObjectProtocol?
 
-    init(index: Int, player: AVPlayer) {
+    init(index: Int, model: ShortsPlayerModel) {
         self.index = index
-        self.player = player
+        self.model = model
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -136,11 +132,23 @@ class ShortsPageVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
 
-        let layer = AVPlayerLayer(player: player)
+        let layer = AVPlayerLayer()
         layer.videoGravity = .resizeAspectFill
         layer.frame = view.bounds
         view.layer.addSublayer(layer)
         self.playerLayer = layer
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // 이 페이지가 화면에 나타날 때 player를 이 레이어에 연결
+        playerLayer?.player = model.player
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // 화면에서 사라지면 연결 해제
+        playerLayer?.player = nil
     }
 
     override func viewDidLayoutSubviews() {

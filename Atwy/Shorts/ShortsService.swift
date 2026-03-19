@@ -51,10 +51,21 @@ class ShortsService {
         return try? await URLSession.shared.data(for: request).0
     }
 
-    // JSON 재귀 탐색으로 reelItemRenderer videoId 추출
+    // JSON 재귀 탐색으로 videoId 추출
+    // - shortsLockupViewModel (2024.10+ 신규): onTap.innertubeCommand.reelWatchEndpoint.videoId
+    // - reelItemRenderer (구버전): videoId
     private func extractVideoIds(from json: Any) -> [String] {
         var ids: [String] = []
         if let dict = json as? [String: Any] {
+            // 신규 구조: shortsLockupViewModel
+            if let vm = dict["shortsLockupViewModel"] as? [String: Any],
+               let onTap = vm["onTap"] as? [String: Any],
+               let cmd = onTap["innertubeCommand"] as? [String: Any],
+               let reel = cmd["reelWatchEndpoint"] as? [String: Any],
+               let videoId = reel["videoId"] as? String {
+                ids.append(videoId)
+            }
+            // 구버전 구조: reelItemRenderer
             if let renderer = dict["reelItemRenderer"] as? [String: Any],
                let videoId = renderer["videoId"] as? String {
                 ids.append(videoId)
