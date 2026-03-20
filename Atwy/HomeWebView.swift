@@ -29,11 +29,22 @@ struct HomeWebView: UIViewRepresentable {
                 #header,
                 .mobile-topbar-header,
                 ytm-topbar-logo-renderer,
-                header.yt-mobile-topbar-header {
+                header.yt-mobile-topbar-header,
+                .ghost-header,
+                header.ghost-header,
+                .player-placeholder-wrapper,
+                #player-placeholder-wrapper,
+                ytm-sticky-player-renderer,
+                [data-sticky-player],
+                .sticky-player {
                     display: none !important;
+                    height: 0 !important;
+                    min-height: 0 !important;
+                    overflow: hidden !important;
                 }
                 ytm-app, #app {
                     padding-top: 0 !important;
+                    margin-top: 0 !important;
                 }
                 ytm-section-list-renderer,
                 ytm-rich-grid-renderer,
