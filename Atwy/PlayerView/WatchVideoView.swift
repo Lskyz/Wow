@@ -153,20 +153,6 @@ struct WatchVideoView: View {
                                     }
                                 }
                                 .zIndex(0)
-                                if !topMenuShown && currentItem != nil {
-                                    Button {
-                                        VideoPlayerModel.shared.enterFullScreen()
-                                    } label: {
-                                        Image(systemName: "arrow.up.left.and.arrow.down.right")
-                                            .font(.system(size: 14, weight: .semibold))
-                                            .foregroundStyle(.white)
-                                            .padding(8)
-                                            .background(.black.opacity(0.5))
-                                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                                    }
-                                    .offset(x: geometry.size.width / 2 - 44, y: -geometry.size.height * 0.09)
-                                    .zIndex(2)
-                                }
                                 HStack(alignment: .bottom) {
                                     OptionalItemChannelAvatarView(makeGradient: makeGradient)
                                         .padding(.horizontal)

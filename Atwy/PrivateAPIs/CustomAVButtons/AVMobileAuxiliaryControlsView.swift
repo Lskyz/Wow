@@ -192,7 +192,16 @@ class AVMobileAuxiliaryControlsView {
             
             return ([PlayerViewController.makeControls()], defaultControlsToAdd, visibleControls)
         case .notFullScreen:
-            return ([], [], defaultControlsToAdd)
+            let fullScreenButton = AVButton(
+                forImage: "arrow.up.left.and.arrow.down.right",
+                action: UIAction(handler: { _ in
+                    VideoPlayerModel.shared.enterFullScreen()
+                }),
+                accessibilityLabel: "전체화면",
+                manager: self.manager
+            )
+            let fullScreenControl = AVMobileAuxiliaryControl(button: fullScreenButton, priority: 0, controlName: "fullscreenbutton", manager: self.manager)
+            return ([], [], defaultControlsToAdd + [fullScreenControl.control])
         }
     }
     
