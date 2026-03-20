@@ -186,7 +186,7 @@ struct WatchVideoView: View {
                                             let videoTitle = currentItem?.videoTitle ?? currentVideo?.video.title ?? ""
                                             Text(videoTitle)
                                                 .font(.callout)
-                                                .foregroundStyle(.white)
+                                                .foregroundStyle(.black)
                                                 .lineLimit(2)
                                                 .padding(.trailing)
                                                 .frame(maxWidth: geometry.size.width * 0.77, maxHeight: geometry.size.height * 0.065, alignment: .leading)
@@ -218,6 +218,8 @@ struct WatchVideoView: View {
                                         .padding(.leading)
                                         .frame(width: geometry.size.width * 0.77, height: geometry.size.height * 0.09)
                                         .padding(.vertical)
+                                        .background(.white)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
                                     }
                                 }
                                 .offset(y: geometry.size.height * 0.165)

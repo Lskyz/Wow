@@ -35,6 +35,25 @@ struct HomeWebView: UIViewRepresentable {
                 ytm-app, #app {
                     padding-top: 0 !important;
                 }
+                ytm-promoted-sparkles-web-renderer,
+                ytm-promoted-video-renderer,
+                ytm-ad-slot-renderer,
+                ytm-display-ad-renderer,
+                ytm-companion-slot,
+                ytm-promoted-sparkles-text-search-renderer,
+                ytm-banner-promo-renderer,
+                ytm-statement-banner-renderer,
+                ytm-carousel-ad-renderer,
+                ytm-shopping-ad-renderer,
+                ytm-in-feed-ad-layout-renderer,
+                #player-ads,
+                .ytm-promoted-ad,
+                [data-style="PROMOTED"],
+                [aria-label*="광고"],
+                [aria-label*="Sponsored"],
+                [aria-label*="Ad "] {
+                    display: none !important;
+                }
             `;
             document.head.appendChild(style);
 
