@@ -103,7 +103,7 @@ struct WatchVideoView: View {
                                             .shadow(radius: 10)
                                     }
                                     //                                .frame(width: geometry.size.width + geometry.safeAreaInsets.leading + geometry.safeAreaInsets.trailing, height: menuShown ? geometry.size.height * 0.40 : geometry.size.height * 0.45)
-                                    .frame(width: geometry.size.width, height: topMenuShown ?  geometry.size.height * 0.175 : geometry.size.height * 0.45)
+                                    .frame(width: geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.width * (9.0/16.0) + 80)
                                     .padding(.top, -geometry.size.height * 0.01)
                                     //.padding(.bottom, geometry.size.height * 0.05)
                                     //(showQueue || showDescription) ? :
@@ -113,8 +113,8 @@ struct WatchVideoView: View {
                                                 player: VideoPlayerModel.shared.player,
                                                 controller: VideoPlayerModel.shared.controller
                                             )
-                                            .frame(width: topMenuShown ? geometry.size.width / 2 : geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.height * 0.35)
-                                            .padding(.top, topMenuShown ? -geometry.size.height * 0.01 : -geometry.size.height * 0.115)
+                                            .frame(width: topMenuShown ? geometry.size.width / 2 : geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.width * (9.0/16.0))
+                                            .padding(.top, topMenuShown ? -geometry.size.height * 0.01 : 0)
                                             .shadow(radius: 10)
                                         } else if isLoadingVideo {
                                             LoadingView(style: .light)
@@ -153,56 +153,39 @@ struct WatchVideoView: View {
                                     }
                                 }
                                 .zIndex(0)
-                                HStack(alignment: .bottom) {
+                                HStack(alignment: .center, spacing: 10) {
                                     OptionalItemChannelAvatarView(makeGradient: makeGradient)
-                                        .padding(.horizontal)
-                                        .frame(height: topMenuShown ? 0 : geometry.size.height * 0.05)
-                                        .padding(.vertical)
-                                        .background(topMenuShown ? .clear : .white)
+                                        .frame(width: topMenuShown ? 0 : 32, height: topMenuShown ? 0 : 32)
                                         .clipShape(Circle())
-                                        .shadow(radius: 5)
-                                        .offset(x: topMenuShown ? -geometry.size.width * 0.55 : 0, y: topMenuShown ? -geometry.size.height * 0.15 : -geometry.size.height * 0.01)
+                                        .padding(topMenuShown ? 0 : 3)
+                                        .background(Circle().fill(topMenuShown ? Color.clear : Color.white))
+                                        .shadow(radius: topMenuShown ? 0 : 4)
+                                        .offset(x: topMenuShown ? -geometry.size.width * 0.55 : 0, y: topMenuShown ? -geometry.size.height * 0.15 : 0)
                                     if !topMenuShown {
+                                        let videoTitle = currentItem?.videoTitle ?? currentVideo?.video.title ?? ""
+                                        let channelName: String = currentItem?.channelName ?? currentVideo?.video.channel?.name ?? ""
                                         VStack(alignment: .leading, spacing: 2) {
-                                            let videoTitle = currentItem?.videoTitle ?? currentVideo?.video.title ?? ""
                                             Text(videoTitle)
                                                 .font(.callout)
                                                 .foregroundStyle(.black)
                                                 .lineLimit(2)
-                                                .padding(.trailing)
-                                                .frame(maxWidth: geometry.size.width * 0.77, maxHeight: geometry.size.height * 0.065, alignment: .leading)
                                                 .multilineTextAlignment(.leading)
                                                 .matchedGeometryEffect(id: "VIDEO_TITLE", in: animation)
-                                            
-                                            let channelName: String = currentItem?.channelName ?? currentVideo?.video.channel?.name ?? ""
                                             Text(channelName)
                                                 .font(.subheadline)
-                                                .lineLimit(2)
-                                                .padding(.trailing)
-                                                .frame(maxWidth: geometry.size.width * 0.77, maxHeight: geometry.size.height * 0.035, alignment: .leading)
-                                                .multilineTextAlignment(.leading)
+                                                .lineLimit(1)
                                                 .foregroundStyle(.gray)
                                                 .matchedGeometryEffect(id: "VIDEO_AUTHOR", in: animation)
-                                            //                                        Text(VPM.video?.title ?? "")
-                                            //                                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.06, alignment: .leading)
-                                            //                                            .font(.system(size: 500))
-                                            //                                            .minimumScaleFactor(0.01)
-                                            //                                            .multilineTextAlignment(.leading)
-                                            //                                            .matchedGeometryEffect(id: "VIDEO_TITLE", in: animation)
-                                            //                                        Text(VPM.video?.channel?.name ?? "")
-                                            //                                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.03, alignment: .leading)
-                                            //                                            .font(.system(size: 500))
-                                            //                                            .minimumScaleFactor(0.01)
-                                            //                                            .multilineTextAlignment(.leading)
-                                            //                                            .matchedGeometryEffect(id: "VIDEO_AUTHOR", in: animation)
                                         }
-                                        .padding(.leading)
-                                        .frame(width: geometry.size.width * 0.77, height: geometry.size.height * 0.09)
-                                        .padding(.vertical)
-                                        .background(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                 }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .frame(maxWidth: topMenuShown ? .infinity : geometry.size.width - 24)
+                                .background(topMenuShown ? Color.clear : Color.white)
+                                .clipShape(RoundedRectangle(cornerRadius: topMenuShown ? 0 : 12))
+                                .shadow(radius: topMenuShown ? 0 : 5)
                                 .offset(y: geometry.size.height * 0.165)
                             }
                             .ignoresSafeArea()
