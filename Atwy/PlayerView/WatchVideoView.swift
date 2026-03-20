@@ -94,107 +94,96 @@ struct WatchVideoView: View {
                     Spacer()
                     VStack(spacing: 0) {
                         let topMenuShown = showQueue || showDescription || showComments
-                        VStack {
-                            ZStack {
-                                ZStack(alignment: topMenuShown ? .topLeading : .center) {
-                                    ZStack {
-                                        Rectangle()
-                                            .fill(Color.black.opacity(0.4))
-                                            .shadow(radius: 10)
+                        VStack(spacing: 0) {
+                            ZStack(alignment: topMenuShown ? .topLeading : .center) {
+                                ZStack {
+                                    Rectangle()
+                                        .fill(Color.black.opacity(0.4))
+                                        .shadow(radius: 10)
+                                }
+                                .frame(width: geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.width * (9.0/16.0))
+                                .padding(.top, -geometry.size.height * 0.01)
+                                HStack(spacing: 0) {
+                                    if currentItem != nil {
+                                        PlayerViewController(
+                                            player: VideoPlayerModel.shared.player,
+                                            controller: VideoPlayerModel.shared.controller
+                                        )
+                                        .frame(width: topMenuShown ? geometry.size.width / 2 : geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.width * (9.0/16.0))
+                                        .padding(.top, topMenuShown ? -geometry.size.height * 0.01 : 0)
+                                        .shadow(radius: 10)
+                                    } else if isLoadingVideo {
+                                        LoadingView(style: .light)
+                                            .frame(alignment: .center)
                                     }
-                                    //                                .frame(width: geometry.size.width + geometry.safeAreaInsets.leading + geometry.safeAreaInsets.trailing, height: menuShown ? geometry.size.height * 0.40 : geometry.size.height * 0.45)
-                                    .frame(width: geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.width * (9.0/16.0))
-                                    .padding(.top, -geometry.size.height * 0.01)
-                                    //.padding(.bottom, geometry.size.height * 0.05)
-                                    //(showQueue || showDescription) ? :
-                                    HStack(spacing: 0) {
-                                        if currentItem != nil {
-                                            PlayerViewController(
-                                                player: VideoPlayerModel.shared.player,
-                                                controller: VideoPlayerModel.shared.controller
-                                            )
-                                            .frame(width: topMenuShown ? geometry.size.width / 2 : geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.width * (9.0/16.0))
-                                            .padding(.top, topMenuShown ? -geometry.size.height * 0.01 : 0)
-                                            .shadow(radius: 10)
-                                        } else if isLoadingVideo {
-                                            LoadingView(style: .light)
-                                                .frame(alignment: .center)
-                                        }
-                                        //                                    VideoPlayer(player: player)
-                                        //                                        .frame(width: menuShown ? geometry.size.width / 2 : geometry.size.width, height: menuShown ? geometry.size.height * 0.175 : geometry.size.height * 0.35)
-                                        //                                        .padding(.top, menuShown ? -geometry.size.height * 0.01 : -geometry.size.height * 0.11)
-                                        //                                        .shadow(radius: 10)
-                                        if topMenuShown {
-                                            // TODO: separate that in another view so that we directly observe currentItem's properties and not the object itself
-                                            ZStack {
-                                                VStack(alignment: .leading) {
-                                                    Text(currentItem?.video.title ?? "")
-                                                        .font(.system(size: 500))
-                                                        .foregroundStyle(.white)
-                                                        .minimumScaleFactor(0.01)
-                                                        .matchedGeometryEffect(id: "VIDEO_TITLE", in: animation)
-                                                        .frame(height: geometry.size.height * 0.1)
-                                                        .transition(.asymmetric(insertion: .offset(y: 100), removal: .offset(y: 100)))
-                                                    Divider()
-                                                        .frame(height: 1)
-                                                    Text(currentItem?.video.channel?.name ?? "")
-                                                        .font(.system(size: 500))
-                                                        .foregroundStyle(.white)
-                                                        .minimumScaleFactor(0.01)
-                                                        .matchedGeometryEffect(id: "VIDEO_AUTHOR", in: animation)
-                                                        .frame(height: geometry.size.height * 0.05)
-                                                        .transition(.asymmetric(insertion: .offset(y: 100), removal: .offset(y: 100)))
-                                                }
-                                                .padding(.horizontal)
+                                    if topMenuShown {
+                                        ZStack {
+                                            VStack(alignment: .leading) {
+                                                Text(currentItem?.video.title ?? "")
+                                                    .font(.system(size: 500))
+                                                    .foregroundStyle(.white)
+                                                    .minimumScaleFactor(0.01)
+                                                    .matchedGeometryEffect(id: "VIDEO_TITLE", in: animation)
+                                                    .frame(height: geometry.size.height * 0.1)
+                                                    .transition(.asymmetric(insertion: .offset(y: 100), removal: .offset(y: 100)))
+                                                Divider()
+                                                    .frame(height: 1)
+                                                Text(currentItem?.video.channel?.name ?? "")
+                                                    .font(.system(size: 500))
+                                                    .foregroundStyle(.white)
+                                                    .minimumScaleFactor(0.01)
+                                                    .matchedGeometryEffect(id: "VIDEO_AUTHOR", in: animation)
+                                                    .frame(height: geometry.size.height * 0.05)
+                                                    .transition(.asymmetric(insertion: .offset(y: 100), removal: .offset(y: 100)))
                                             }
-                                            .frame(width: geometry.size.width / 2, height: geometry.size.height * 0.175)
-                                            .padding(.top, -geometry.size.height * 0.01)
+                                            .padding(.horizontal)
                                         }
+                                        .frame(width: geometry.size.width / 2, height: geometry.size.height * 0.175)
+                                        .padding(.top, -geometry.size.height * 0.01)
                                     }
                                 }
-                                .zIndex(0)
-                                if !topMenuShown {
-                                    HStack(alignment: .center, spacing: 10) {
-                                        OptionalItemChannelAvatarView(makeGradient: makeGradient)
-                                            .frame(width: 32, height: 32)
-                                            .padding(3)
-                                            .background(Circle().fill(Color.white))
-                                            .shadow(radius: 4)
-                                        let videoTitle = currentItem?.videoTitle ?? currentVideo?.video.title ?? ""
-                                        let channelName: String = currentItem?.channelName ?? currentVideo?.video.channel?.name ?? ""
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(videoTitle)
-                                                .font(.callout)
-                                                .foregroundStyle(.black)
-                                                .lineLimit(2)
-                                                .multilineTextAlignment(.leading)
-                                                .matchedGeometryEffect(id: "VIDEO_TITLE", in: animation)
-                                            Text(channelName)
-                                                .font(.subheadline)
-                                                .lineLimit(1)
-                                                .foregroundStyle(.gray)
-                                                .matchedGeometryEffect(id: "VIDEO_AUTHOR", in: animation)
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    }
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                    .frame(maxWidth: geometry.size.width - 24)
-                                    .background(Color.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    .shadow(radius: 5)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .offset(y: geometry.size.width * (9.0/32.0) + 40)
-                                } else {
+                                if topMenuShown {
                                     OptionalItemChannelAvatarView(makeGradient: makeGradient)
                                         .frame(width: 32, height: 32)
                                         .padding(3)
                                         .background(Circle().fill(Color.white))
                                         .shadow(radius: 4)
-                                        .offset(x: -geometry.size.width * 0.55, y: -geometry.size.height * 0.15)
+                                        .padding(.leading, 8)
+                                        .padding(.top, 8)
                                 }
                             }
                             .ignoresSafeArea()
+                            if !topMenuShown {
+                                HStack(alignment: .center, spacing: 10) {
+                                    OptionalItemChannelAvatarView(makeGradient: makeGradient)
+                                        .frame(width: 32, height: 32)
+                                        .padding(3)
+                                        .background(Circle().fill(Color.white))
+                                        .shadow(radius: 4)
+                                    let videoTitle = currentItem?.videoTitle ?? currentVideo?.video.title ?? ""
+                                    let channelName: String = currentItem?.channelName ?? currentVideo?.video.channel?.name ?? ""
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(videoTitle)
+                                            .font(.callout)
+                                            .foregroundStyle(.black)
+                                            .lineLimit(2)
+                                            .multilineTextAlignment(.leading)
+                                            .matchedGeometryEffect(id: "VIDEO_TITLE", in: animation)
+                                        Text(channelName)
+                                            .font(.subheadline)
+                                            .lineLimit(1)
+                                            .foregroundStyle(.gray)
+                                            .matchedGeometryEffect(id: "VIDEO_AUTHOR", in: animation)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 0))
+                                .shadow(radius: 3)
+                            }
                         }
                         let bottomBarHeight: CGFloat = geometry.safeAreaInsets.bottom + 60
                         GeometryReader { scrollViewGeometry in
@@ -256,7 +245,7 @@ struct WatchVideoView: View {
                             Spacer()
                         }
                         .contentMargins(.bottom, length: bottomBarHeight)
-                        .contentMargins(.top, length: !topMenuShown ? 80 : 0)
+                        .contentMargins(.top, length: 0)
                         .overlay(alignment: .top) {
                             PlayerTopActionsView(menuShown: topMenuShown)
                         }
