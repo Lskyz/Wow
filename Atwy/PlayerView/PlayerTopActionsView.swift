@@ -77,6 +77,20 @@ struct PlayerTopActionsView: View {
                             CoordinationManager.shared.prepareToPlay(video)
                         }
                     }
+
+                    PlayerQuickActionView {
+                        Image(systemName: "arrow.up.left.and.arrow.down.right")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18)
+                            .foregroundStyle(.white)
+                    } action: {
+                        VideoPlayerModel.shared.controller.perform(
+                            NSSelectorFromString("enterFullScreenAnimated:completionHandler:"),
+                            with: true,
+                            with: {}
+                        )
+                    }
                 }
             }
             .frame(height: !menuShown ? 80 : 0)

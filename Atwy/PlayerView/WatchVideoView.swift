@@ -209,8 +209,9 @@ struct WatchVideoView: View {
                             if let currentItem = currentItem {
                                 RecommendedVideosView(currentItem: currentItem)
                                     .frame(height: !topMenuShown ? max(180, scrollViewGeometry.size.height) : 0)
+                                    .background(.white)
                                     .mask(FadeInOutView(mode: .vertical, gradientSize: 20))
-                                    .environment(\.colorScheme, .dark)
+                                    .environment(\.colorScheme, .light)
                                     .id(currentItem)
                             }
                             VStack {
