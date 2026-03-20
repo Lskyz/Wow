@@ -183,6 +183,7 @@ struct WatchVideoView: View {
                                     .background(Color.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                     .shadow(radius: 5)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                     .offset(y: geometry.size.width * (9.0/32.0) + 40)
                                 } else {
                                     OptionalItemChannelAvatarView(makeGradient: makeGradient)
