@@ -204,6 +204,7 @@ struct PlayerViewController: UIViewControllerRepresentable {
         
         controller.showsPlaybackControls = showControls
         controller.updatesNowPlayingInfoCenter = true
+        controller.videoGravity = .resizeAspectFill
         controller.player = player
         controller.delegate = context.coordinator
         

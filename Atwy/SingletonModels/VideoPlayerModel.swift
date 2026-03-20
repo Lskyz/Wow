@@ -58,6 +58,15 @@ class VideoPlayerModel: NSObject, ObservableObject {
         self.player.removeTimeObserver(self.timeObserver as Any)
     }
 
+    func enterFullScreen() {
+        let block: (@convention(block) () -> Void) = {}
+        controller.perform(
+            NSSelectorFromString("enterFullScreenAnimated:completionHandler:"),
+            with: true,
+            with: block
+        )
+    }
+
     override init() {
         super.init()
         player.publisher(for: \.currentItem)

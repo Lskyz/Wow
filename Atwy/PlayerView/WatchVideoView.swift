@@ -116,27 +116,6 @@ struct WatchVideoView: View {
                                             .frame(width: topMenuShown ? geometry.size.width / 2 : geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.height * 0.35)
                                             .padding(.top, topMenuShown ? -geometry.size.height * 0.01 : -geometry.size.height * 0.115)
                                             .shadow(radius: 10)
-                                            .overlay(alignment: .bottomTrailing) {
-                                                if !topMenuShown {
-                                                    Button {
-                                                        VideoPlayerModel.shared.controller.perform(
-                                                            NSSelectorFromString("enterFullScreenAnimated:completionHandler:"),
-                                                            with: true,
-                                                            with: {}
-                                                        )
-                                                    } label: {
-                                                        Image(systemName: "arrow.up.left.and.arrow.down.right")
-                                                            .font(.system(size: 14, weight: .semibold))
-                                                            .foregroundStyle(.white)
-                                                            .padding(8)
-                                                            .background(.black.opacity(0.45))
-                                                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                                                    }
-                                                    .padding(.bottom, geometry.size.height * 0.12)
-                                                    .padding(.trailing, 8)
-                                                }
-                                            }
-                                            
                                         } else if isLoadingVideo {
                                             LoadingView(style: .light)
                                                 .frame(alignment: .center)
@@ -174,11 +153,27 @@ struct WatchVideoView: View {
                                     }
                                 }
                                 .zIndex(0)
+                                if !topMenuShown && currentItem != nil {
+                                    Button {
+                                        VideoPlayerModel.shared.enterFullScreen()
+                                    } label: {
+                                        Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                            .font(.system(size: 14, weight: .semibold))
+                                            .foregroundStyle(.white)
+                                            .padding(8)
+                                            .background(.black.opacity(0.5))
+                                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                                    }
+                                    .offset(x: geometry.size.width / 2 - 44, y: -geometry.size.height * 0.09)
+                                    .zIndex(2)
+                                }
                                 HStack(alignment: .bottom) {
                                     OptionalItemChannelAvatarView(makeGradient: makeGradient)
                                         .padding(.horizontal)
-                                        .frame(height: topMenuShown ? 0 : geometry.size.height * 0.07)
+                                        .frame(height: topMenuShown ? 0 : geometry.size.height * 0.05)
                                         .padding(.vertical)
+                                        .background(topMenuShown ? .clear : .white)
+                                        .clipShape(Circle())
                                         .shadow(radius: 5)
                                         .offset(x: topMenuShown ? -geometry.size.width * 0.55 : 0, y: topMenuShown ? -geometry.size.height * 0.15 : -geometry.size.height * 0.01)
                                     if !topMenuShown {
