@@ -116,6 +116,26 @@ struct WatchVideoView: View {
                                             .frame(width: topMenuShown ? geometry.size.width / 2 : geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.height * 0.35)
                                             .padding(.top, topMenuShown ? -geometry.size.height * 0.01 : -geometry.size.height * 0.115)
                                             .shadow(radius: 10)
+                                            .overlay(alignment: .bottomTrailing) {
+                                                if !topMenuShown {
+                                                    Button {
+                                                        VideoPlayerModel.shared.controller.perform(
+                                                            NSSelectorFromString("enterFullScreenAnimated:completionHandler:"),
+                                                            with: true,
+                                                            with: {}
+                                                        )
+                                                    } label: {
+                                                        Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                                            .font(.system(size: 14, weight: .semibold))
+                                                            .foregroundStyle(.white)
+                                                            .padding(8)
+                                                            .background(.black.opacity(0.45))
+                                                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                                                    }
+                                                    .padding(.bottom, geometry.size.height * 0.12)
+                                                    .padding(.trailing, 8)
+                                                }
+                                            }
                                             
                                         } else if isLoadingVideo {
                                             LoadingView(style: .light)
