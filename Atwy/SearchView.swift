@@ -136,10 +136,12 @@ struct SearchView: View {
         .onSubmit(of: .search, {
             model.getVideos() // the first getVideos is done by APIKeyModel
         })
-        .navigationTitle(model.search.isEmpty ? "" : "홈")
+        .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .customNavigationTitleWithRightIcon {
-            ShowSettingsButtonView()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                ShowSettingsButtonView()
+            }
         }
     }
     
