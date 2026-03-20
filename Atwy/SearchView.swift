@@ -312,7 +312,7 @@ struct SearchView: View {
             Task {
                 let result = try? await AutoCompletionResponse.sendThrowingRequest(youtubeModel: YTM, data: [.query: search])
                 DispatchQueue.main.async {
-                    self.autoCompletion = result?.autoCompletionEntries ?? []
+                    self.autoCompletion = (result?.autoCompletionEntries ?? []).map { $0.removingPercentEncoding ?? $0 }
                 }
             }
         }

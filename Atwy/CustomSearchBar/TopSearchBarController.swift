@@ -25,7 +25,7 @@ class TopSearchBarController: UIViewController {
         self.onSubmit = onSubmit
         super.init(nibName: nil, bundle: nil)
         
-        self.view.frame.size.height = 50
+        self.view.frame.size.height = 44
         
         setupBackgroundView()
         setupMagnifyingImageView()
@@ -43,7 +43,7 @@ class TopSearchBarController: UIViewController {
         backgroundView = SearchBarBackgroundView()
         backgroundView.frame.size.width = self.view.frame.width - 40
         backgroundView.frame.origin.x = 20
-        backgroundView.frame.size.height = 36
+        backgroundView.frame.size.height = 30
         
         view.addSubview(backgroundView)
     }

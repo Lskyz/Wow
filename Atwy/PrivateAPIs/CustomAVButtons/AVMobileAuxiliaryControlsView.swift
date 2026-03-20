@@ -38,9 +38,7 @@ class AVMobileAuxiliaryControlsView {
         }
          
         
-        if PreferencesStorageModel.shared.customAVButtonsEnabled {
-            self.injectInMethod()
-        }
+        self.injectInMethod()
             
         
         let imp = imp_implementationWithBlock(unsafeBitCast(handler, to: NSObject.self))

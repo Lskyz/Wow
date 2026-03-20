@@ -35,6 +35,19 @@ struct HomeWebView: UIViewRepresentable {
                 ytm-app, #app {
                     padding-top: 0 !important;
                 }
+                ytm-section-list-renderer,
+                ytm-rich-grid-renderer,
+                ytm-browse {
+                    padding-top: 0 !important;
+                    margin-top: 0 !important;
+                }
+                ytm-feed-filter-chip-bar-renderer {
+                    margin-top: 0 !important;
+                    padding-top: 0 !important;
+                }
+                ytm-rich-grid-renderer > .rich-grid-renderer-style {
+                    padding-top: 0 !important;
+                }
                 ytm-promoted-sparkles-web-renderer,
                 ytm-promoted-video-renderer,
                 ytm-ad-slot-renderer,
