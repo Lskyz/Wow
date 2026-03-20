@@ -103,7 +103,7 @@ struct WatchVideoView: View {
                                             .shadow(radius: 10)
                                     }
                                     //                                .frame(width: geometry.size.width + geometry.safeAreaInsets.leading + geometry.safeAreaInsets.trailing, height: menuShown ? geometry.size.height * 0.40 : geometry.size.height * 0.45)
-                                    .frame(width: geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.width * (9.0/16.0) + 80)
+                                    .frame(width: geometry.size.width, height: topMenuShown ? geometry.size.height * 0.175 : geometry.size.width * (9.0/16.0))
                                     .padding(.top, -geometry.size.height * 0.01)
                                     //.padding(.bottom, geometry.size.height * 0.05)
                                     //(showQueue || showDescription) ? :
@@ -153,15 +153,13 @@ struct WatchVideoView: View {
                                     }
                                 }
                                 .zIndex(0)
-                                HStack(alignment: .center, spacing: 10) {
-                                    OptionalItemChannelAvatarView(makeGradient: makeGradient)
-                                        .frame(width: topMenuShown ? 0 : 32, height: topMenuShown ? 0 : 32)
-                                        .clipShape(Circle())
-                                        .padding(topMenuShown ? 0 : 3)
-                                        .background(Circle().fill(topMenuShown ? Color.clear : Color.white))
-                                        .shadow(radius: topMenuShown ? 0 : 4)
-                                        .offset(x: topMenuShown ? -geometry.size.width * 0.55 : 0, y: topMenuShown ? -geometry.size.height * 0.15 : 0)
-                                    if !topMenuShown {
+                                if !topMenuShown {
+                                    HStack(alignment: .center, spacing: 10) {
+                                        OptionalItemChannelAvatarView(makeGradient: makeGradient)
+                                            .frame(width: 32, height: 32)
+                                            .padding(3)
+                                            .background(Circle().fill(Color.white))
+                                            .shadow(radius: 4)
                                         let videoTitle = currentItem?.videoTitle ?? currentVideo?.video.title ?? ""
                                         let channelName: String = currentItem?.channelName ?? currentVideo?.video.channel?.name ?? ""
                                         VStack(alignment: .leading, spacing: 2) {
@@ -179,14 +177,21 @@ struct WatchVideoView: View {
                                         }
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                     }
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 8)
+                                    .frame(maxWidth: geometry.size.width - 24)
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    .shadow(radius: 5)
+                                    .offset(y: geometry.size.width * (9.0/32.0) + 40)
+                                } else {
+                                    OptionalItemChannelAvatarView(makeGradient: makeGradient)
+                                        .frame(width: 32, height: 32)
+                                        .padding(3)
+                                        .background(Circle().fill(Color.white))
+                                        .shadow(radius: 4)
+                                        .offset(x: -geometry.size.width * 0.55, y: -geometry.size.height * 0.15)
                                 }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .frame(maxWidth: topMenuShown ? .infinity : geometry.size.width - 24)
-                                .background(topMenuShown ? Color.clear : Color.white)
-                                .clipShape(RoundedRectangle(cornerRadius: topMenuShown ? 0 : 12))
-                                .shadow(radius: topMenuShown ? 0 : 5)
-                                .offset(y: geometry.size.height * 0.165)
                             }
                             .ignoresSafeArea()
                         }
