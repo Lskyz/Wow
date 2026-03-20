@@ -34,22 +34,21 @@ jobs:
 
       - name: 프로젝트 빌드 (서명 없이, 병렬 컴파일)
         run: |
-          xcodebuild -project Atwy.xcodeproj \
+          xcodebuild build \
+            -project Atwy.xcodeproj \
             -scheme Atwy \
             -configuration Release \
-            -destination 'generic/platform=iOS' \
-            -archivePath build/Atwy.xcarchive \
+            -sdk iphoneos \
             -derivedDataPath build/DerivedData \
             -jobs $(sysctl -n hw.logicalcpu) \
             -parallelizeTargets \
-            archive \
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
       - name: IPA 수동 생성
         run: |
           rm -rf Payload build/ipa
           mkdir -p build/ipa Payload
-          cp -r build/Atwy.xcarchive/Products/Applications/Atwy.app Payload/
+          cp -r build/DerivedData/Build/Products/Release-iphoneos/Atwy.app Payload/
           chmod -R 755 Payload/Atwy.app
           zip -r build/ipa/Atwy.ipa Payload
 
